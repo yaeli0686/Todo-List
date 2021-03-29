@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TO DO LIST</title>
+    <style>
+        * {
+            /* outline: 1px dashed red; */
+        }
+
+        #count {
+            width: 100%;
+            text-align: center;
+        }
+
+        .itemWrapper {
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+            align-items: center;
+        }
+
+        ol#myList {
+            width: 100%;
+            padding: 0 0 0 25px;
+        }
+
+        ol>li {
+
+            width: 100%;
+            text-align: center;
+            margin-bottom: 7px;
+        }
+
+        button {
+            margin-left: auto;
+            border: none;
+            color: white;
+            padding: 0;
+            text-align: center;
+            text-decoration: none;
+            font-size: 20px;
+            margin: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+
+        button.remove {
+            background-color: #e03636;
+        }
+
+        input[type="checkbox"]:checked+span {
+            text-decoration: line-through;
+        }
+
+        body {
+            text-align: center;
+            font-size: 18px;
+            font-family: cursive;
+            background-color: #ecf6fbf7;
+        }
+
+        .wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        h1 {
+            width: 100%;
+            text-align: center;
+        }
+
+        label {
+            width: 100%;
+            margin: 10px auto;
+        }
+
+        .inputWrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 300px;
+
+        }
+
+        input#task {
+
+            width: 80%;
+            border-radius: 4px;
+            border: 2px solid gray;
+        }
+
+        button#btn {
+
+            background-color: #66bb6a;
+            font-size: 24px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <h1>My Todo List</h1>
+        <div id="count"></div>
+
+        <div class="inputWrapper">
+            <label for="">Add a new task</label>
+            <input type="text" id="task" autofocus></input>
+            <button id="btn">+</button>
+
+
+
+            <ol id="myList">
+
+
+
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // add eventListener + icon
+
+        //when pressing the "+" button:
+        document.getElementById('btn').addEventListener('click', addNew);
+
+        //when pressing the Enter key:
+        document.getElementById('task').addEventListener('keydown', (event) => {
+            console.log(event);
+            if (event.key === "Enter") {
+                addNew();
+            }
+        });
+
+
+
+        function addNew() {
+
+            let userIn = document.getElementById('task').value;
+
+
+            //clear the input field when pressing "Enetr" or clicking the "+" button:
+            document.getElementById('task').value = "";
+
+            if (userIn.length > 0) {
+
+                let node = document.createElement("LI");
+
+                node.innerHTML = `<div class="itemWrapper">
+                    <input type="checkbox" class="checkBox">
+                    <span>${userIn}</span>
+                    <button class="remove">x</button>
+                    </div>
+                `;
+
+
+                document.getElementById("myList").appendChild(node);
+
+                // delete
+                let removeBtn = Array.from(document.querySelectorAll(".remove")).pop();
+                removeBtn.addEventListener('click', removeItem);
+
+                // check the check box:
+                let boxIsChecked = Array.from(document.querySelectorAll(".checkBox")).pop();
+                boxIsChecked.addEventListener('change', updateCounter);
+
+
+
+                updateCounter();
+
+            } else {
+                alert('Please enter a task name to the list');
+            }
+
+        }
+
+
+        // DELETING
+        function updateCounter() {
+            let totalTasks = document.getElementsByClassName('checkBox').length;
+            let checked = document.querySelectorAll('.checkBox:checked').length;
+
+            document.getElementById('count').innerHTML = `You have complitted ${checked} tasks out of ${totalTasks}`;
+        }
+
+        function removeItem(event) {
+            // var element = document.getElementById("myList");
+            // element.parentNode.removeChild(element);
+            // document.removeItem("LI");
+            // console.log(event.target);
+            event.target.parentElement.parentElement.remove();
+            updateCounter();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //function: is input valid
+
+        //get input value - save in a variable
+
+        //create a template for a new list item - literal string `` (with the value from the input)
+
+        //insert the new task to the end of the list 
+
+        //add 2 event listeners to the new task (checkbox & delete)
+
+        //line through - with css 
+
+        //update todo list state (o tasks out of 3)
+
+        //count all the checked items for the left number
+        //count all the checkboxes for the right number 
+    </script>
+
+</body>
+
+</html>
